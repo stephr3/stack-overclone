@@ -1,13 +1,39 @@
 <h1>Manage Users</h1>
 
-<h2>Administrators</h2>
-<% @users.where_admin.each do |user| %>
+<h3>Total Active Users: <%= @users.length %></h3>
+<h2>Best!</h2>
+<% @users.is_best.each do |user| %>
   <li>
-    <%= user.email %> | <%= user.admin %>
+    <%= user.email %> | <%= user.admin %> | Best: <%= user.best %>
     <%= form_for user do |f| %>
       <%=f.hidden_field :admin, :value => !user.admin %>
       <%= f.submit "Remove Admin Privileges", :class=>"btn btn-success" %>
     <% end %>
+    <%= form_for user do |f| %>
+      <%=f.hidden_field :best, :value => !user.best %>
+      <%= f.submit "Toggle Best", :class=>"btn btn-success" %>
+    <% end %>
+
+    <%= link_to "Delete Admin", user_path(user),
+                              :data => {:confirm => "Are you sure you'd like to delete the user #{user.email}?",
+                              :method => "delete"},
+                              :class => "btn btn-danger" %>
+  </li>
+<% end %>
+
+<h2>Administrators</h2>
+<% @users.where_admin.is_not_best.each do |user| %>
+  <li>
+    <%= user.email %> | <%= user.admin %> | Best: <%= user.best %>
+    <%= form_for user do |f| %>
+      <%=f.hidden_field :admin, :value => !user.admin %>
+      <%= f.submit "Remove Admin Privileges", :class=>"btn btn-success" %>
+    <% end %>
+    <%= form_for user do |f| %>
+      <%=f.hidden_field :best, :value => !user.best %>
+      <%= f.submit "Toggle Best", :class=>"btn btn-success" %>
+    <% end %>
+
     <%= link_to "Delete Admin", user_path(user),
                               :data => {:confirm => "Are you sure you'd like to delete the user #{user.email}?",
                               :method => "delete"},
@@ -15,12 +41,16 @@
   </li>
 <% end %>
 <h2>Users</h2>
-<% @users.where_not_admin.each do |user| %>
+<% @users.where_not_admin.is_not_best.each do |user| %>
   <li>
-    <%= user.email %> | <%= user.admin %>
+    <%= user.email %> | <%= user.admin %> | Best: <%= user.best %>
     <%= form_for user do |f| %>
       <%=f.hidden_field :admin, :value => !user.admin %>
       <%= f.submit "Make Admin", :class=>"btn btn-success" %>
+    <% end %>
+    <%= form_for user do |f| %>
+      <%=f.hidden_field :best, :value => !user.best %>
+      <%= f.submit "Toggle Best", :class=>"btn btn-success" %>
     <% end %>
     <%= link_to "Delete User", user_path(user),
                               :data => {:confirm => "Are you sure you'd like to delete the user #{user.email}?",

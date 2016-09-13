@@ -10,6 +10,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     if @user.save
       flash[:notice] = "Welcome to the site!"
+      session[:user_id] = @user.id
       redirect_to "/"
     else
       flash[:alert] = "There was a problem creating your account. Please try again."
@@ -19,8 +20,15 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user.update(user_params)
-      redirect_to users_path
+    if user_params[:admin] != nil
+      if @user.update(user_params)
+        redirect_to users_path
+      end
+    elsif user_params[:best] != nil
+      User.is_best.update(:best => false)
+      if @user.update(user_params)
+        redirect_to users_path
+      end
     end
   end
 
@@ -32,6 +40,6 @@ class UsersController < ApplicationController
 
   private
     def user_params
-      params.require(:user).permit(:email, :password, :password_confirmation, :admin)
+      params.require(:user).permit(:email, :password, :password_confirmation, :admin, :best)
     end
 end

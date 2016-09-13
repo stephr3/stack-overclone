@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
       redirect_to '/'
     elsif !current_user
       flash[:alert] = "You are not logged in"
-      redirect_to '/'
+      redirect_to log_in_path
     end
   end
 

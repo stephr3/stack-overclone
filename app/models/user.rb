@@ -14,6 +14,14 @@ class User < ActiveRecord::Base
     where({:admin => false})
   end)
 
+  scope(:is_best, -> do
+    where({:best => true})
+  end)
+
+  scope(:is_not_best, -> do
+    where({:best => false})
+  end)
+
   def encrypt_password
     self.salt = BCrypt::Engine.generate_salt
     self.password_hash = BCrypt::Engine.hash_secret(password, salt)
