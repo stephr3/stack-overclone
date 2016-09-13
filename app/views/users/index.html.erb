@@ -1,5 +1,15 @@
 <h1>Manage Users</h1>
 
 <% @users.each do |user| %>
-  <li><%= user.email %> | <%= user.admin %> <%= form_for user do |f| %><%=f.hidden_field :admin, :value => !user.admin %> <%= f.submit "Toggle Admin", :class=>"btn btn-success" %><% end %></li>
+  <li>
+    <%= user.email %> | <%= user.admin %>
+    <%= form_for user do |f| %>
+      <%=f.hidden_field :admin, :value => !user.admin %>
+      <%= f.submit "Toggle Admin", :class=>"btn btn-success" %>
+    <% end %>
+    <%= link_to "Delete User", user_path(user),
+                              :data => {:confirm => "Are you sure you'd like to delete the user #{user.email}?",
+                              :method => "delete"},
+                              :class => "btn btn-danger" %>
+  </li>
 <% end %>
