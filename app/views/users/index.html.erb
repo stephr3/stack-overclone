@@ -7,14 +7,14 @@
     <%= user.email %> | <%= user.admin %> | Best: <%= user.best %>
     <%= form_for user do |f| %>
       <%=f.hidden_field :admin, :value => !user.admin %>
-      <%= f.submit "Remove Admin Privileges", :class=>"btn btn-success" %>
+      <%= f.submit "Toggle Admin", :class=>"btn btn-success" %>
     <% end %>
     <%= form_for user do |f| %>
       <%=f.hidden_field :best, :value => !user.best %>
       <%= f.submit "Toggle Best", :class=>"btn btn-success" %>
     <% end %>
 
-    <%= link_to "Delete Admin", user_path(user),
+    <%= link_to "Delete", user_path(user),
                               :data => {:confirm => "Are you sure you'd like to delete the user #{user.email}?",
                               :method => "delete"},
                               :class => "btn btn-danger" %>
