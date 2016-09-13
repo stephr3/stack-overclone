@@ -2,6 +2,8 @@ class User < ActiveRecord::Base
 
   attr_accessor :password
   validates_confirmation_of :password
+  validates :email, :password, presence: true
+  validates :password, length: { minimum: 4 }
   before_save :encrypt_password
 
   def encrypt_password
