@@ -8,7 +8,7 @@
       <%=f.hidden_field :admin, :value => !user.admin %>
       <%= f.submit "Remove Admin Privileges", :class=>"btn btn-success" %>
     <% end %>
-    <%= link_to "Delete User", user_path(user),
+    <%= link_to "Delete Admin", user_path(user),
                               :data => {:confirm => "Are you sure you'd like to delete the user #{user.email}?",
                               :method => "delete"},
                               :class => "btn btn-danger" %>

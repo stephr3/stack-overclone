@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
       flash[:alert] = 'You are not authorized'
       redirect_to '/'
     elsif !current_user
-      flash[:alert] = "Your are not logged in"
+      flash[:alert] = "You are not logged in"
       redirect_to '/'
     end
   end
