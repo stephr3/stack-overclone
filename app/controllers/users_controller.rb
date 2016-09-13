@@ -20,6 +20,9 @@ class UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(user_params)
+      redirect_to users_path
+    else
+      flash[:alert] = "There was a problem updating the user. Please try again."
       redirect_to :back
     end
   end
