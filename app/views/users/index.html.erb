@@ -1,11 +1,26 @@
 <h1>Manage Users</h1>
 
-<% @users.each do |user| %>
+<h2>Administrators</h2>
+<% @users.where_admin.each do |user| %>
   <li>
     <%= user.email %> | <%= user.admin %>
     <%= form_for user do |f| %>
       <%=f.hidden_field :admin, :value => !user.admin %>
-      <%= f.submit "Toggle Admin", :class=>"btn btn-success" %>
+      <%= f.submit "Remove Admin Privileges", :class=>"btn btn-success" %>
+    <% end %>
+    <%= link_to "Delete User", user_path(user),
+                              :data => {:confirm => "Are you sure you'd like to delete the user #{user.email}?",
+                              :method => "delete"},
+                              :class => "btn btn-danger" %>
+  </li>
+<% end %>
+<h2>Users</h2>
+<% @users.where_not_admin.each do |user| %>
+  <li>
+    <%= user.email %> | <%= user.admin %>
+    <%= form_for user do |f| %>
+      <%=f.hidden_field :admin, :value => !user.admin %>
+      <%= f.submit "Make Admin", :class=>"btn btn-success" %>
     <% end %>
     <%= link_to "Delete User", user_path(user),
                               :data => {:confirm => "Are you sure you'd like to delete the user #{user.email}?",
